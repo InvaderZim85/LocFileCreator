@@ -10,11 +10,15 @@
 <!-- /TOC -->
 
 ## History
+
 | Date | Version | Info |
 |---|---|---|
 | 2020-06-05 | 1.0.0.0 | Initial |
 
 ## Installation
+
+Download: ![LocFileCreate - Version 1.0.0.0]()
+
 The tool needs no installation. Just download the zip-archive, extract it and run the *LocFileCreator.exe*.
 
 > **Note**: You need the *.NET Framework 4.8* which can you download here: [.NET Framework 4.8 download](https://support.microsoft.com/de-de/help/4503548/microsoft-net-framework-4-8-offline-installer-for-windows)
