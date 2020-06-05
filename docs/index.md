@@ -17,7 +17,7 @@
 
 ## Installation
 
-Download: ![LocFileCreate - Version 1.0.0.0]()
+Download: [LocFileCreate - Version 1.0.0.0](https://github.com/InvaderZim85/LocFileCreator/releases/tag/v1.0.0.0)
 
 The tool needs no installation. Just download the zip-archive, extract it and run the *LocFileCreator.exe*.
 
