@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
+using System.Windows.Navigation;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using LocFileCreator.ViewModel;
@@ -25,6 +27,14 @@ namespace LocFileCreator.View
         {
             if (DataContext is MainWindowViewModel viewModel)
                 viewModel.InitViewModel(DialogCoordinator.Instance);
+        }
+
+        /// <summary>
+        /// Occurs when the user hits the link (bottom right)
+        /// </summary>
+        private void InfoLink_Clicked(object sender, RequestNavigateEventArgs e)
+        {
+            Process.Start(e.Uri.AbsoluteUri);
         }
     }
 }

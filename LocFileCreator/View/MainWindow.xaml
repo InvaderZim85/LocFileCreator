@@ -7,14 +7,184 @@
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModel="clr-namespace:LocFileCreator.ViewModel"
-    Title="MainWindow"
+    Title="TrackMania / ManiaPlanet - Location file creator"
     Width="800"
     Height="450"
     mah:DialogParticipation.Register="{Binding}"
+    Icon="../LocationFileIcon.png"
     Loaded="MainWindow_OnLoaded"
+    ResizeMode="CanResizeWithGrip"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Window.DataContext>
         <viewModel:MainWindowViewModel />
     </Window.DataContext>
-    <Grid />
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Label
+            Grid.Row="0"
+            Grid.Column="0"
+            Content="Source directory:" />
+        <TextBox
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="3"
+            mah:TextBoxHelper.Watermark="Enter the directory which contains the image files or user the browse button..."
+            Text="{Binding SourceDirectory, UpdateSourceTrigger=PropertyChanged}" />
+        <Button
+            Grid.Row="0"
+            Grid.Column="2"
+            Margin="3"
+            Command="{Binding BrowseCommand}"
+            Content="Browse" />
+
+        <Label
+            Grid.Row="1"
+            Grid.Column="0"
+            Content="Loc path:" />
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="3"
+            mah:TextBoxHelper.Watermark="Enter the path / url where the images are stored (e.g. www.myserver.com/images)"
+            Text="{Binding LocPath, UpdateSourceTrigger=PropertyChanged}" />
+
+        <Button
+            Grid.Row="2"
+            Grid.Column="2"
+            Margin="3"
+            Command="{Binding LoadCommand}"
+            Content="Load files"
+            IsEnabled="{Binding SourceSelected}" />
+
+
+        <Label
+            Grid.Row="2"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            Content="The entered path is not valid!"
+            Foreground="DarkRed"
+            Visibility="{Binding ShowDirErrorMessage, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+        <Label
+            Grid.Row="3"
+            Grid.Column="0"
+            HorizontalAlignment="Left"
+            Content="Files"
+            FontWeight="Bold" />
+        <Separator
+            Grid.Row="3"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Margin="3"
+            VerticalAlignment="Top" />
+
+        <DataGrid
+            Grid.Row="4"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Margin="3"
+            AlternatingRowBackground="{StaticResource MahApps.Brushes.Accent}"
+            AutoGenerateColumns="False"
+            CanUserAddRows="False"
+            CanUserDeleteRows="False"
+            ItemsSource="{Binding FileList}">
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding Name}"
+                    Header="Name"
+                    IsReadOnly="True" />
+                <DataGridTextColumn
+                    Width="Auto"
+                    Binding="{Binding Extension}"
+                    Header="Extension"
+                    IsReadOnly="True" />
+                <DataGridTextColumn
+                    Width="Auto"
+                    Binding="{Binding SizeString, Mode=OneWay}"
+                    Header="Size"
+                    IsReadOnly="True" />
+                <DataGridCheckBoxColumn Width="Auto" Binding="{Binding Selected}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Separator
+            Grid.Row="5"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Margin="3" />
+
+        <StackPanel
+            Grid.Row="6"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Orientation="Horizontal">
+            <Button
+                Width="80"
+                Margin="3"
+                Command="{Binding SelectAllCommand}"
+                Content="Select all" />
+            <Button
+                Width="80"
+                Margin="3"
+                Command="{Binding SelectNoneCommand}"
+                Content="Select none" />
+        </StackPanel>
+
+        <Button
+            Grid.Row="6"
+            Grid.Column="2"
+            Margin="3"
+            Command="{Binding CreateCommand}"
+            Content="Create"
+            IsEnabled="{Binding CreateButtonEnabled}" />
+
+        <StatusBar
+            Grid.Row="7"
+            Grid.Column="0"
+            Grid.ColumnSpan="3">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StatusBarItem Grid.Column="0" Content="{Binding ToolInfo}" />
+            <StatusBarItem Grid.Column="2" Margin="0,0,20,0">
+                <Hyperlink
+                    Foreground="White"
+                    NavigateUri="https://github.com/InvaderZim85/LocFileCreator"
+                    RequestNavigate="InfoLink_Clicked">
+                    Info / Help
+                </Hyperlink>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
 </mah:MetroWindow>
